@@ -1,0 +1,71 @@
+POPULARITE DES FONCTIONNALITES
+
+- create table pageviews
+    CREATE TABLE pageviews (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        page_name VARCHAR(255) NOT NULL,
+        count_view INT DEFAULT 0,
+        createdAt  varchar(250) default null,
+        updatedAt varchar(50) DEFAULT NULL
+    );
+
+-- publication recente
+npm install moment --save
+
+RECENT PUBLICATION
+    routes
+        http://localhost:8000/api/recent_publications
+
+    repository (publication)
+        getRecentPublication
+
+    controller (publication)
+        getRecentPublication 
+
+ANALYSE DEMOGRAPHIQUE
+    routes
+        http://localhost:8000/api/demographic_data
+
+-- Preference
+alter table preference add column updatedAt varchar(50) DEFAULT NULL;
+alter table preference add column createdAt varchar(50) DEFAULT NULL;
+
+-- Attribution de role dans users
+ALTER TABLE users
+ADD COLUMN role_id INT(11) AFTER id;
+    repository (users)
+        getDemographicData
+
+    controller (user)
+        getAllDemographicData 
+
+    exemple de donnees (sortie):
+        {
+            "gender": "Homme",
+            "city": "Tananarive",
+            "country": "Madagascar",
+            "quarter": "Ankorondrano ",
+            "count": 1
+        },
+        {
+            "gender": "Homme",
+            "city": "Tananarivo",
+            "country": "Madagascar",
+            "quarter": "Ivandry",
+            "count": 1
+        }
+
+SIGNALEMENT
+
+    table
+        alter table reports add column updatedAt varchar(50) DEFAULT NULL;
+
+    model (reports)
+    
+    controller (signalement)
+        getAllSignalement
+    
+    repository (signalement)
+        getAllSignalement
+
+    routes
