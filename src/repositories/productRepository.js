@@ -11,6 +11,7 @@ class ProductRepository {
             throw error;
         }
     }
+    
 
     async getAllProducts(filters = {}, options = {}) {
         return await Product.findAll({ where: filters, ...options });
@@ -23,6 +24,7 @@ class ProductRepository {
     async updateProduct(id, updatedData) {
         return await Product.update(updatedData, { where: { id } });
     }
+    
 
     async deleteProduct(id) {
         try {

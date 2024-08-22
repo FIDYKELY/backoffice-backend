@@ -61,6 +61,11 @@ const Product = sequelize.define('Product', {
         type: DataTypes.STRING(255),
         allowNull: true,
         defaultValue: null
+    },
+    quantity: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
     }
 }, {
     timestamps: true

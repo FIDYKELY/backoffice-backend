@@ -9,17 +9,8 @@ const createProduct = async (req, res) => {
     }
 
     try {
-        const { product_name, description, price, category_id, reviews, is_favourite, ratings, image_url } = req.body;
-        const product = await productRepository.createProduct({
-            product_name,
-            description,
-            price,
-            category_id,
-            reviews,
-            is_favourite,
-            ratings,
-            image_url
-        });
+        const { product_name, description, price, category_id, quantity } = req.body;
+        const product = await productRepository.createProduct({ product_name, description, price, category_id, quantity });
         res.status(201).json(product);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
@@ -81,17 +72,8 @@ const updateProduct = async (req, res) => {
     }
 
     try {
-        const { product_name, description, price, category_id, reviews, is_favourite, ratings, image_url } = req.body;
-        const [updated] = await productRepository.updateProduct(id, {
-            product_name,
-            description,
-            price,
-            category_id,
-            reviews,
-            is_favourite,
-            ratings,
-            image_url
-        });
+        const { product_name, description, price, category_id, quantity } = req.body;
+        const [updated] = await productRepository.updateProduct(id, { product_name, description, price, category_id, quantity });
         if (!updated) {
             return res.status(404).json({ message: 'Produit non trouvé' });
         }
