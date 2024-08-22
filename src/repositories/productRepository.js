@@ -1,6 +1,6 @@
 const { Op } = require('sequelize');
 const Product = require('../models/product');
-const Category = require('../models/category'); // Ajoutez cette ligne si vous utilisez le modèle Category
+const Category = require('../models/category');
 
 class ProductRepository {
     async createProduct(productData) {
@@ -15,12 +15,10 @@ class ProductRepository {
     async getAllProducts(filters = {}, options = {}) {
         return await Product.findAll({ where: filters, ...options });
     }
-    
 
     async getProductById(id) {
-        return await Product.findByPk(id); // Assurez-vous que le modèle est correctement importé
+        return await Product.findByPk(id);
     }
-    
 
     async updateProduct(id, updatedData) {
         return await Product.update(updatedData, { where: { id } });

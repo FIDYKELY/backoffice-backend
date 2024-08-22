@@ -1,7 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-
-// Importer le modèle Category
 const Category = require('./category');
 
 const Product = sequelize.define('Product', {
@@ -43,12 +41,31 @@ const Product = sequelize.define('Product', {
             model: 'Categories',
             key: 'id'
         }
+    },
+    reviews: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+    },
+    is_favourite: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
+    },
+    ratings: {
+        type: DataTypes.DECIMAL(2, 1),
+        allowNull: true,
+        defaultValue: 0.0
+    },
+    image_url: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+        defaultValue: null
     }
 }, {
     timestamps: true
 });
 
-// Définir les associations après avoir importé les modèles
 Product.belongsTo(Category, { foreignKey: 'category_id' });
 
 module.exports = Product;

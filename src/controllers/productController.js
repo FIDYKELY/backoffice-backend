@@ -9,7 +9,17 @@ const createProduct = async (req, res) => {
     }
 
     try {
-        const product = await productRepository.createProduct(req.body);
+        const { product_name, description, price, category_id, reviews, is_favourite, ratings, image_url } = req.body;
+        const product = await productRepository.createProduct({
+            product_name,
+            description,
+            price,
+            category_id,
+            reviews,
+            is_favourite,
+            ratings,
+            image_url
+        });
         res.status(201).json(product);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
@@ -23,7 +33,6 @@ const createProduct = async (req, res) => {
 const getAllProducts = async (req, res) => {
     const { page = 1, limit = 10, sort, ...filters } = req.query;
     
-    // Assurez-vous que 'page' et 'limit' sont des nombres valides
     const pageNumber = parseInt(page, 10);
     const limitNumber = parseInt(limit, 10);
     
@@ -50,7 +59,6 @@ const getAllProducts = async (req, res) => {
     }
 };
 
-
 const getProductById = async (req, res) => {
     const { id } = req.params;
     try {
@@ -65,7 +73,6 @@ const getProductById = async (req, res) => {
     }
 };
 
-
 const updateProduct = async (req, res) => {
     const { id } = req.params;
     const errors = validationResult(req);
@@ -74,7 +81,17 @@ const updateProduct = async (req, res) => {
     }
 
     try {
-        const [updated] = await productRepository.updateProduct(id, req.body);
+        const { product_name, description, price, category_id, reviews, is_favourite, ratings, image_url } = req.body;
+        const [updated] = await productRepository.updateProduct(id, {
+            product_name,
+            description,
+            price,
+            category_id,
+            reviews,
+            is_favourite,
+            ratings,
+            image_url
+        });
         if (!updated) {
             return res.status(404).json({ message: 'Produit non trouvé' });
         }
@@ -110,7 +127,6 @@ const searchProducts = async (req, res) => {
         res.status(500).json({ message: 'Une erreur est survenue lors de la recherche des produits' });
     }
 };
-
 
 module.exports = {
     createProduct,
