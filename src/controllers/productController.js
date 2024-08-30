@@ -1,6 +1,7 @@
 const productRepository = require('../repositories/productRepository');
 const { validationResult } = require('express-validator');
 const { Sequelize } = require('sequelize');
+const path = require('path');
 
 const createProduct = async (req, res) => {
     const errors = validationResult(req);
@@ -10,7 +11,20 @@ const createProduct = async (req, res) => {
 
     try {
         const { product_name, description, price, category_id, quantity } = req.body;
-        const product = await productRepository.createProduct({ product_name, description, price, category_id, quantity });
+
+        // Enregistrer le chemin relatif de l'image
+        const image_url = req.file ? `uploads/${req.file.filename}` : null;
+
+        // Créer le produit avec l'URL de l'image relative
+        const product = await productRepository.createProduct({
+            product_name,
+            description,
+            price,
+            category_id,
+            quantity,
+            image_url
+        });
+
         res.status(201).json(product);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
@@ -20,6 +34,8 @@ const createProduct = async (req, res) => {
         res.status(500).json({ message: 'Une erreur est survenue lors de la création du produit' });
     }
 };
+
+
 
 const getAllProducts = async (req, res) => {
     const { page = 1, limit = 10, sort, ...filters } = req.query;
@@ -73,10 +89,21 @@ const updateProduct = async (req, res) => {
 
     try {
         const { product_name, description, price, category_id, quantity } = req.body;
-        const [updated] = await productRepository.updateProduct(id, { product_name, description, price, category_id, quantity });
+        const image_url = req.file ? req.file.path : null; // Obtenir le chemin du fichier
+
+        const [updated] = await productRepository.updateProduct(id, {
+            product_name,
+            description,
+            price,
+            category_id,
+            quantity,
+            image_url // Inclure l'image
+        });
+
         if (!updated) {
             return res.status(404).json({ message: 'Produit non trouvé' });
         }
+
         const updatedProduct = await productRepository.getProductById(id);
         res.json(updatedProduct);
     } catch (error) {

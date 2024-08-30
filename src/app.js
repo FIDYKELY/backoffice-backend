@@ -16,6 +16,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/api", routes);
 app.use('/api/products', productRoutes);
+const categoryRoutes = require('./routes/category.routes');
+app.use('/api/categories', categoryRoutes);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
 
 // Synchronisation des modèles avec la base de données
 sequelize.sync()

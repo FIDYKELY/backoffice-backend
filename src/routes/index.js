@@ -21,7 +21,7 @@ const reportRoutes = require('./report.routes');
 // const surveyRoutes = require('./survey.routes');
 const userRoutes = require('./user.routes');
 const annuaireRoutes = require('./annuaire.routes');
-const pageviewsRoutes = require('./pageviews.routes'); // -- increment
+// const pageviewsRoutes = require('./pageviews.routes'); // -- increment
 const roleRoutes = require('./role'); // Ajout des routes de gestion des rôles
 const permissionRoutes = require('./permission'); // Ajout des routes de gestion des permissions
 
@@ -44,6 +44,6 @@ express.use(preferenceRoutes);
 express.use(reportRoutes);
 express.use(userRoutes);
 express.use(annuaireRoutes);
-express.use(pageviewsRoutes);
+// express.use(pageviewsRoutes);
 
 module.exports = express;

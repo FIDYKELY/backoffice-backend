@@ -5,13 +5,13 @@ const Category = require('../models/category');
 class ProductRepository {
     async createProduct(productData) {
         try {
+            // Make sure productData includes image_url if provided
             return await Product.create(productData);
         } catch (error) {
             console.error('Erreur lors de la création du produit :', error);
             throw error;
         }
     }
-    
 
     async getAllProducts(filters = {}, options = {}) {
         return await Product.findAll({ where: filters, ...options });
@@ -22,9 +22,9 @@ class ProductRepository {
     }
 
     async updateProduct(id, updatedData) {
+        // Make sure updatedData includes image_url if provided
         return await Product.update(updatedData, { where: { id } });
     }
-    
 
     async deleteProduct(id) {
         try {

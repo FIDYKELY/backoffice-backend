@@ -35,12 +35,11 @@ const Product = sequelize.define('Product', {
     },
     category_id: {
         type: DataTypes.INTEGER,
-        allowNull: true,
-        defaultValue: null,
         references: {
-            model: 'Categories',
+            model: Category,
             key: 'id'
-        }
+        },
+        allowNull: true
     },
     reviews: {
         type: DataTypes.INTEGER,
@@ -71,6 +70,6 @@ const Product = sequelize.define('Product', {
     timestamps: true
 });
 
-Product.belongsTo(Category, { foreignKey: 'category_id' });
+Product.belongsTo(Category, { foreignKey: 'category_id', as: 'category' });
 
 module.exports = Product;

@@ -1,10 +1,11 @@
 const express = require('express');
 const productController = require('../controllers/productController');
 const { check } = require('express-validator');
+const upload = require('../config/multerConfig');
 
 const router = express.Router();
 
-router.post('/', [
+router.post('/', upload.single('image'), [
     check('product_name').notEmpty().withMessage('Le nom du produit est requis'),
     check('price').isNumeric().withMessage('Le prix doit être un nombre'),
     check('ratings').optional().isFloat({ min: 0, max: 5 }).withMessage('La note doit être entre 0 et 5'),
@@ -13,7 +14,7 @@ router.post('/', [
 
 router.get('/', productController.getAllProducts);
 router.get('/:id', productController.getProductById);
-router.put('/:id', [
+router.put('/:id', upload.single('image'), [
     check('product_name').notEmpty().withMessage('Le nom du produit est requis'),
     check('price').isNumeric().withMessage('Le prix doit être un nombre'),
     check('ratings').optional().isFloat({ min: 0, max: 5 }).withMessage('La note doit être entre 0 et 5'),
