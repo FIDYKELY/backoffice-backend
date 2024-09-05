@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { TOKEN_KEY, TOKEN_EXPIRE } = require("../config/constant");
+const { TOKEN_KEY, TOKEN_EXPIRE } = require("../config/constant"); // Assurez-vous d'importer TOKEN_EXPIRE ici
 const { ServerError } = require("./error.util");
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
       try {
         return jwt.sign(
           {
-            user_id: user._id,
+            user_id: user.id,
             user_email: user.email,
           },
           TOKEN_KEY,
@@ -24,13 +24,17 @@ module.exports = {
     }
   },
   parseToken(authorization) {
-    return authorization != null ? authorization.replace("Bearer ", "") : null;
+    const token = authorization ? authorization.replace("Bearer ", "") : null;
+    console.log("Token extrait:", token); // Debug log
+    return token;
   },
   getDataFromToken(authorization) {
     const token = module.exports.parseToken(authorization);
     if (token) {
       try {
-        return jwt.verify(token, TOKEN_KEY);
+        const decoded = jwt.verify(token, TOKEN_KEY);
+        console.log("Données décodées:", decoded); // Debug log
+        return decoded;
       } catch (error) {
         throw new ServerError("Verification de token error: " + error);
       }

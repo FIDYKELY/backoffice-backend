@@ -111,6 +111,31 @@ const updateProduct = async (req, res) => {
         res.status(500).json({ message: 'Une erreur est survenue lors de la mise à jour du produit' });
     }
 };
+const updateProductRating = async (req, res) => {
+    const { id } = req.params;
+    const { rating } = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+        const product = await productRepository.getProductById(id);
+        if (!product) {
+            return res.status(404).json({ message: 'Produit non trouvé' });
+        }
+
+        // Mettre à jour la note du produit
+        product.ratings = rating;
+        await product.save();
+
+        res.json(product);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Une erreur est survenue lors de la mise à jour de la note du produit' });
+    }
+};
+
 
 const deleteProduct = async (req, res) => {
     const { id } = req.params;
@@ -143,5 +168,6 @@ module.exports = {
     getProductById,
     updateProduct,
     deleteProduct,
-    searchProducts
+    searchProducts,
+    updateProductRating,
 };

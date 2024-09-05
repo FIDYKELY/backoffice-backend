@@ -20,6 +20,9 @@ router.put('/:id', upload.single('image'), [
     check('ratings').optional().isFloat({ min: 0, max: 5 }).withMessage('La note doit être entre 0 et 5'),
     check('quantity').isInt({ min: 0 }).withMessage('La quantité doit être un entier positif')
 ], productController.updateProduct);
+router.put('/:id/rating', [
+    check('rating').isFloat({ min: 0, max: 5 }).withMessage('La note doit être entre 0 et 5')
+], productController.updateProductRating);
 
 router.delete('/:id', productController.deleteProduct);
 router.get('/search', productController.searchProducts);

@@ -22,8 +22,25 @@ class ProductRepository {
     }
 
     async updateProduct(id, updatedData) {
-        // Make sure updatedData includes image_url if provided
-        return await Product.update(updatedData, { where: { id } });
+        try {
+            return await Product.update(updatedData, { where: { id } });
+        } catch (error) {
+            console.error('Erreur lors de la mise à jour du produit :', error);
+            throw error;
+        }
+    }
+    
+
+    async updateProductRating(id, rating) {
+        try {
+            // Mettre à jour uniquement la note du produit
+            await Product.update({ ratings: rating }, { where: { id } });
+            // Récupérer le produit mis à jour pour retourner les données actualisées
+            return await Product.findByPk(id);
+        } catch (error) {
+            console.error('Erreur lors de la mise à jour de la note du produit :', error);
+            throw error;
+        }
     }
 
     async deleteProduct(id) {
