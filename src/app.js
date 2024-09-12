@@ -4,11 +4,13 @@ const path = require("path");
 const cors = require("cors");
 const app = express();
 const sequelize = require('./config/database'); // Ensure Sequelize configuration is correct
+// const stripe = require('stripe')('pk_test_51NzK6iARIo3qbRy8csc4mnZYnZ8apnF5HP3UyIJOcAXKScUeP5qSQcTuvZ3vYE2FKxrVnQE9zqsZo9SsvpIVQqB700LAwbcyQb');
 
 const routes = require("./routes");
 const productRoutes = require('./routes/productRoutes');
 const commentsRoutes = require('./routes/comment.routes');
 const categoryRoutes = require('./routes/category.routes');
+const paymentRoutes = require('./routes/payments');
 
 // Serve the "stockage" directory as a static folder
 const stockagePath = path.resolve(__dirname, "../stockage");
@@ -26,6 +28,8 @@ app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api', commentsRoutes);
+app.use('/api', paymentRoutes);
+
 
 // Synchronize models with the database
 sequelize.sync()
