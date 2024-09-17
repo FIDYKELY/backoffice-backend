@@ -1,7 +1,7 @@
 // routes/payments.js
 const express = require('express');
 const router = express.Router();
-const stripe = require('stripe')('pk_test_51NzK6iARIo3qbRy8csc4mnZYnZ8apnF5HP3UyIJOcAXKScUeP5qSQcTuvZ3vYE2FKxrVnQE9zqsZo9SsvpIVQqB700LAwbcyQb'); // Replace with your Stripe secret key
+const stripe = require('stripe')('sk_test_51NzK6iARIo3qbRy8ndPdK8zcesMu73pf6vw5eqoabsd1O0phZMLYGfcmq2rlVb8daffaunprE2Mv3rjfXHuAPQ2Q00JxA4eORi'); // Replace with your Stripe secret key
 
 router.post('/create-payment-intent', async (req, res) => {
   const { amount } = req.body;
