@@ -9,10 +9,10 @@ const User = sequelize.define("User", {
     primaryKey: true,
     autoIncrement: true,
   },
-  _id: {
-    type: DataTypes.STRING(50),
-    allowNull: true,
-  },
+  // _id: {
+  //   type: DataTypes.STRING(50),
+  //   allowNull: true,
+  // },
   city: {
     type: DataTypes.STRING(50),
     allowNull: true,
@@ -88,10 +88,5 @@ const User = sequelize.define("User", {
 });
 
 
-// UserSchema.methods.initial = function initial() {
-//     return this.fullname.slice(0, 1);
-// };
-
-// const User = mongoose.model("User", UserSchema, "users");
 
 module.exports = { User };

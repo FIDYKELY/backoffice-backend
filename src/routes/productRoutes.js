@@ -1,5 +1,6 @@
 const express = require('express');
 const productController = require('../controllers/productController');
+const favouriteController = require('../controllers/favourite.controller');
 const { check } = require('express-validator');
 const upload = require('../config/multerConfig');
 
@@ -25,6 +26,12 @@ router.put('/:id/rating', [
 ], productController.updateProductRating);
 
 router.delete('/:id', productController.deleteProduct);
-router.get('/search', productController.searchProducts);
+// router.get('/search', productController.searchProducts);
+
+// Route pour ajouter/retirer un produit des favoris
+router.post('/:productId/favourite', favouriteController.addToFavourites);
+
+// Route pour récupérer les favoris d'un utilisateur
+router.get('/users/:userId/favourites', favouriteController.getFavouritesByUser);
 
 module.exports = router;

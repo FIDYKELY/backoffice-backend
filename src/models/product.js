@@ -46,11 +46,11 @@ const Product = sequelize.define('Product', {
         allowNull: true,
         defaultValue: 0
     },
-    is_favourite: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true,
-        defaultValue: false
-    },
+    // is_favourite: {
+    //     type: DataTypes.BOOLEAN,
+    //     allowNull: true,
+    //     defaultValue: false
+    // },
     ratings: {
         type: DataTypes.DECIMAL(2, 1),
         allowNull: true,
