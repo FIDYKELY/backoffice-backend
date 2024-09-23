@@ -48,8 +48,30 @@ const getFavouritesByUser = async (req, res) => {
         return res.status(500).json({ message: 'Erreur serveur lors de la récupération des favoris' });
     }
 };
+const removeFavourite = async (req, res) => {
+    try {
+        const { userId } = req.body;
+        const { productId } = req.params;
+
+        // Vérifiez si l'utilisateur existe
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+        }
+
+        // Retirer le favori
+        await favouriteRepository.removeFavourite(userId, productId);
+        return res.status(200).json({ message: 'Produit retiré des favoris' });
+    } catch (error) {
+        console.error('Erreur lors de la suppression des favoris', error);
+        return res.status(500).json({ message: 'Erreur serveur lors de la suppression des favoris' });
+    }
+};
+
+
 
 module.exports = {
     addToFavourites,
-    getFavouritesByUser
+    getFavouritesByUser,
+    removeFavourite
 };
