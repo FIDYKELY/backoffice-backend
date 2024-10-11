@@ -35,6 +35,9 @@ router.post('/:productId/favourite', favouriteController.addToFavourites);
 router.get('/users/:userId/favourites', favouriteController.getFavouritesByUser);
 // Route pour retirer un produit des favoris
 router.delete('/:productId/favourite', favouriteController.removeFavourite);
+// Route pour enregistrer un clic sur un produit
+router.post('/:id/click', productController.registerProductClick);
+
 
 
 module.exports = router;

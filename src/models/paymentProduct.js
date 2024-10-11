@@ -6,7 +6,7 @@ const PaymentProduct = sequelize.define('PaymentProduct', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'Payments', // Assurez-vous que le nom du modèle est correct
+      model: 'Payments', 
       key: 'id'
     }
   },
@@ -14,7 +14,7 @@ const PaymentProduct = sequelize.define('PaymentProduct', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'Products', // Assurez-vous que le nom du modèle est correct
+      model: 'Products', 
       key: 'id'
     }
   },
@@ -29,7 +29,7 @@ const PaymentProduct = sequelize.define('PaymentProduct', {
 }, {
   modelName: 'PaymentProduct',
   tableName: 'payment_products',
-  timestamps: true, // Ceci ajoute les champs createdAt et updatedAt automatiquement
+  timestamps: true, 
 });
 
 module.exports = PaymentProduct;

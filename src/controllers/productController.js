@@ -2,6 +2,8 @@ const productRepository = require('../repositories/productRepository');
 const { validationResult } = require('express-validator');
 const { Sequelize } = require('sequelize');
 const path = require('path');
+const fs = require('fs');
+const sharp = require('sharp');
 
 const createProduct = async (req, res) => {
     const errors = validationResult(req);
@@ -38,22 +40,9 @@ const createProduct = async (req, res) => {
 
 
 const getAllProducts = async (req, res) => {
-    const { page = 1, limit = 10, sort, ...filters } = req.query;
-    
-    const pageNumber = parseInt(page, 10);
-    const limitNumber = parseInt(limit, 10);
-    
-    if (isNaN(pageNumber) || pageNumber < 1) {
-        return res.status(400).json({ message: 'Page invalide' });
-    }
-    
-    if (isNaN(limitNumber) || limitNumber < 1) {
-        return res.status(400).json({ message: 'Limite invalide' });
-    }
+    const { sort, ...filters } = req.query;
     
     const options = {
-        limit: limitNumber,
-        offset: (pageNumber - 1) * limitNumber,
         order: sort ? [[sort.field, sort.order]] : [['createdAt', 'DESC']]
     };
     
@@ -65,6 +54,7 @@ const getAllProducts = async (req, res) => {
         res.status(500).json({ message: 'Une erreur est survenue lors de la récupération des produits' });
     }
 };
+
 
 const getProductById = async (req, res) => {
     const { id } = req.params;
@@ -89,15 +79,22 @@ const updateProduct = async (req, res) => {
 
     try {
         const { product_name, description, price, category_id, quantity } = req.body;
-        const image_url = req.file ? req.file.path : null; // Obtenir le chemin du fichier
+        let image_url = null;
 
+        // Si un fichier est téléchargé
+        if (req.file) {
+            const fileName = req.file.filename; // Récupérer uniquement le nom du fichier
+            image_url = path.join('uploads', fileName); // Construire l'URL sous la forme 'uploads/filename'
+        }
+
+        // Mettre à jour le produit dans la base de données
         const [updated] = await productRepository.updateProduct(id, {
             product_name,
             description,
             price,
             category_id,
             quantity,
-            image_url // Inclure l'image
+            image_url // Inclure l'URL relative de l'image
         });
 
         if (!updated) {
@@ -161,6 +158,32 @@ const searchProducts = async (req, res) => {
         res.status(500).json({ message: 'Une erreur est survenue lors de la recherche des produits' });
     }
 };
+const registerProductClick = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        console.log(`Received request to register click for product ID: ${id}`);
+
+        // Mettre à jour le compteur de clics du produit
+        const product = await productRepository.getProductById(id);
+        console.log('Product fetched:', product);
+        
+        if (!product) {
+            return res.status(404).json({ message: 'Produit non trouvé' });
+        }
+
+        // Mettre à jour clickCount au lieu de clicks
+        product.clickCount = product.clickCount ? product.clickCount + 1 : 1;
+        await product.save();
+
+        res.json({ message: 'Clic enregistré', product });
+    } catch (error) {
+        console.error('Error while registering click:', error);
+        res.status(500).json({ message: 'Une erreur est survenue lors de l\'enregistrement du clic' });
+    }
+};
+
+
 
 module.exports = {
     createProduct,
@@ -170,4 +193,5 @@ module.exports = {
     deleteProduct,
     searchProducts,
     updateProductRating,
+    registerProductClick,
 };

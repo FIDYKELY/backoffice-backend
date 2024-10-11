@@ -68,6 +68,21 @@ class ProductRepository {
             throw error;
         }
     }
+    async registerClick(id) {
+        try {
+            const product = await this.getProductById(id);
+            if (product) {
+                product.clickCount = product.clickCount ? product.clickCount + 1 : 1;
+                await product.save();
+                console.log(`Click count updated for product ID ${id}: ${product.clickCount}`);
+            }
+            return product;
+        } catch (error) {
+            console.error('Erreur lors de l\'enregistrement du clic :', error);
+            throw error;
+        }
+    }
+    
 }
 
 module.exports = new ProductRepository();
