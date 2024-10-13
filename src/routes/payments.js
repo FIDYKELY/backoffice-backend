@@ -3,7 +3,7 @@ const router = express.Router();
 const stripe = require('stripe')('sk_test_51NzK6iARIo3qbRy8ndPdK8zcesMu73pf6vw5eqoabsd1O0phZMLYGfcmq2rlVb8daffaunprE2Mv3rjfXHuAPQ2Q00JxA4eORi'); // Clé Stripe
 // const { Payment, PaymentProduct } = require('../models'); // Assure-toi que les modèles Sequelize sont définis
 const Payment = require('../models/payment');
-const PaymentProduct = require('../models/paymentProduct');
+// const PaymentProduct = require('../models/paymentProduct');
 
 
 // Route pour créer une intention de paiement Stripe
@@ -29,21 +29,16 @@ router.post('/savePaymentDetails', async (req, res) => {
   const { paymentId, userId, totalAmount, paymentMethod, products } = req.body;
 
   try {
-    // Insérer les détails du paiement dans la base de données
-    const payment = await Payment.create({
-      payment_id: paymentId,
-      user_id: userId,
-      total_amount: totalAmount,
-      payment_method: paymentMethod,
-    });
-
-    // Insérer les produits achetés
+    // Insérer les détails du paiement dans la base de données pour chaque produit
     for (const product of products) {
-      await PaymentProduct.create({
-        payment_id: payment.id,
-        product_id: product.productId,
-        quantity: product.quantity,
-        price: product.price,
+      await Payment.create({
+        payment_id: paymentId,
+        user_id: userId,
+        total_amount: totalAmount,
+        payment_method: paymentMethod,
+        product_id: product.productId, // Enregistrez le product_id
+        quantity: product.quantity,     // Enregistrez la quantité
+        price: product.price,           // Enregistrez le prix
       });
     }
 

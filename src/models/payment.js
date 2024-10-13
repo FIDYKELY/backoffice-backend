@@ -23,6 +23,18 @@ const Payment = sequelize.define('Payment', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  product_id: { // Ajout du champ product_id
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  quantity: { // Ajout du champ quantity
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  price: { // Ajout du champ price
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+  },
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,
