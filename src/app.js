@@ -12,6 +12,9 @@ const commentsRoutes = require('./routes/comment.routes');
 const categoryRoutes = require('./routes/category.routes');
 const paymentRoutes = require('./routes/payments');
 const recommendationRoutes = require('./routes/recommendationRoutes');
+const deliveryRoutes = require('./routes/delivery.routes');
+const driverRoutes = require('./routes/driver.routes')
+
 
 // Serve the "stockage" directory as a static folder
 const stockagePath = path.resolve(__dirname, "../stockage");
@@ -31,6 +34,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api', commentsRoutes);
 app.use('/api', paymentRoutes);
 app.use('/api/recommend', recommendationRoutes);
+app.use('/api/deliveries', deliveryRoutes);
+app.use('/api', driverRoutes);
 
 
 // Synchronize models with the database
