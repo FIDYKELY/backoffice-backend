@@ -7,6 +7,9 @@ router.post('/assign-driver', DeliveryController.assignDriver);
 
 // Route pour mettre à jour la position d'un livreur
 router.post('/update-location', DeliveryController.updateDriverLocation);
+router.get('/', DeliveryController.getAllDeliveries);
+router.post('/assign-driver', DeliveryController.assignDriver);
+router.put('/:id/status', DeliveryController.updateDeliveryStatus);
 
 // Route pour obtenir toutes les localisations des conducteurs
 router.get('/driver-locations', DeliveryController.getDriverLocations);

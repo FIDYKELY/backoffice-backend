@@ -14,6 +14,7 @@ const paymentRoutes = require('./routes/payments');
 const recommendationRoutes = require('./routes/recommendationRoutes');
 const deliveryRoutes = require('./routes/delivery.routes');
 const driverRoutes = require('./routes/driver.routes')
+const orderRoutes = require('./routes/orders.routes');
 
 
 // Serve the "stockage" directory as a static folder
@@ -36,6 +37,7 @@ app.use('/api', paymentRoutes);
 app.use('/api/recommend', recommendationRoutes);
 app.use('/api/deliveries', deliveryRoutes);
 app.use('/api', driverRoutes);
+app.use('/api', orderRoutes);
 
 
 // Synchronize models with the database

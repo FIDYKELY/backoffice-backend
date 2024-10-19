@@ -15,13 +15,22 @@ const Delivery = sequelize.define('Delivery', {
     type: DataTypes.INTEGER,
     allowNull: false
   },
-  status: {
-    type: DataTypes.STRING,
-    defaultValue: 'pending', // pending, assigned, delivered
+  delivery_status: { // Renommez status en delivery_status
+    type: DataTypes.STRING(50), // Définir la longueur si nécessaire
+    defaultValue: 'in_transit', // Modifiez la valeur par défaut si nécessaire
     allowNull: false
+  },
+  assigned_at: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+    allowNull: false
+  },
+  delivered_at: {
+    type: DataTypes.DATE,
+    allowNull: true
   }
 }, {
-  timestamps: true
+  timestamps: false
 });
 
 module.exports = Delivery;
