@@ -37,6 +37,7 @@ router.get('/users/:userId/favourites', favouriteController.getFavouritesByUser)
 router.delete('/:productId/favourite', favouriteController.removeFavourite);
 // Route pour enregistrer un clic sur un produit
 router.post('/:id/click', productController.registerProductClick);
+router.get('/recommendations/:userId', favouriteController.getRecommendations)
 
 
 

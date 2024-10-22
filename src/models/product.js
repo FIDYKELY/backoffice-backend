@@ -69,7 +69,10 @@ const Product = sequelize.define('Product', {
 }, {
     timestamps: true
 });
-
+Product.associate = (models) => {
+    Product.hasMany(models.UserFavourite, { foreignKey: 'product_id' });
+    Product.hasMany(models.Payment, { foreignKey: 'product_id' });
+  };
 Product.belongsTo(Category, { foreignKey: 'category_id', as: 'category' });
 
 module.exports = Product;
